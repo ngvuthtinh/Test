@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Lab 5</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <meat charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <main>
+            <h3 id="name">Pham Hoang Phuong</h3>
+            <h4 id="student-id" class="bold">Student ID: ITCSIU23056</h4>
+            <h4 id="course" class="bold">Data science and Data visualization</h4>
+            <h4 id="lab" class="italic">Lab 5 –D3.js - Interaction</h4>
+            <p id="text">This is all my own work. I did not copy the code from any other source.</p>
+        </main>
+        <body>
+            <div id="info">
+                <h1>COVID-19 Confirmed Cases</h1>
+                <p>Click on the circle to see the details</p>
+                <select>Choose interaction type
+                    <option defualt value="hover" >Hover</option>
+                    <option value="brush">Brush</option>
+                </select>
+            </div>
+            <div id="chart">
+                <svg id="scatter-plot" height="1000" width="1000"></svg>
+                <script src="script.js"></script>
+                <script>
+                    function extractData(d) {
+                        let result;
+                        const targetDate = "4/5/20";
+                        if (d.hasOwnProperty(targetDate)) {
+                            result = parseFloat(d[targetDate]);
+                        }
+                        return result;
+                    }
+
+                    let rowConverter = function (d) {
+                        let result = {
+                            lat: parseFloat(d.Lat),
+                            long: parseFloat(d.Long),
+                            country: d["Country/Region"],
+                            province: d["Province/State"],
+                            date_value: extractData(d)
+                        };
+                        return result;
+                    };
+
+                    const link_data = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+                    d3.csv(link_data, d3.autoType, rowConverter)
+                        .then(data => {
+                            drawScatterPlot(data, "#scatter-plot");
+                            console.log(data); // For debugging data
+                        });
+                </script>
+
+        </body>
+    </body>
+</html>
